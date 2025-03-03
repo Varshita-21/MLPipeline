@@ -35,7 +35,7 @@ PROJECT_NAME = "AutoMLX"
 authentication_status = 1
 if authentication_status:
     with st.sidebar:
-        st.image("https://cdn.pixabay.com/photo/2021/08/04/13/06/software-developer-6521720_1280.jpg", use_column_width=True)
+        st.image("https://cdn.pixabay.com/photo/2021/08/04/13/06/software-developer-6521720_1280.jpg", use_container_width=True)
         st.title(PROJECT_NAME)
         st.info(f"Created by {YOUR_NAME}")
         choice = st.radio("Navigation", ["Home", "Upload", "EDA", "Data Cleaning", "Modelling", "Download"])
