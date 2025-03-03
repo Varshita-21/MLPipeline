@@ -38,6 +38,6 @@
 To get started with AutoMLX, clone the repository and install the dependencies:
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/AutoMLX.git
+git clone https://github.com/Varshita-21/MLPipeline.git
 cd AutoMLX
 pip install -r requirements.txt
