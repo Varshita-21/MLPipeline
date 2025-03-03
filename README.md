@@ -1,32 +1,43 @@
-# AutoML-ify: Your Simplified ML Pipeline Automated
+# AutoMLX: Automate Your Machine Learning Workflow 🚀
 
-**AutoML-ify** is an end-to-end automated machine learning pipeline designed to simplify the entire ML workflow. With just a dataset as input, AutoML-ify handles data cleaning, preprocessing, exploratory data analysis (EDA), model selection, training, and visualization – all with minimal user intervention. Whether you're a data scientist, business analyst, or ML enthusiast, AutoML-ify makes machine learning accessible, efficient, and powerful.
-
----
-
-## Key Features
-
-- **Automated Data Cleaning**: Handles missing values, outliers, and data inconsistencies automatically.
-- **Smart Preprocessing**: Performs feature scaling, encoding, and transformation tailored to your dataset.
-- **Exploratory Data Analysis (EDA)**: Generates insightful visualizations and summaries to help you understand your data.
-- **Model Selection & Training**: Automatically selects the best model for your task (classification, regression, etc.) and trains it with optimized hyperparameters.
-- **Visualization & Reporting**: Provides clear, interactive visualizations of model performance and data insights.
-- **User-Friendly**: Just upload your dataset – AutoML-ify takes care of the rest!
+**AutoMLX** is a fully automated machine learning pipeline designed to streamline the ML process. With just a dataset as input, AutoMLX takes care of data cleaning, preprocessing, exploratory data analysis (EDA), model selection, training, and visualization—all with minimal user intervention. Whether you're a data scientist, business analyst, or ML enthusiast, AutoMLX makes machine learning faster, smarter, and more accessible.
 
 ---
 
-## Why AutoML-ify?
+## 🚀 Key Features
 
-- **Save Time**: Automate repetitive tasks and focus on interpreting results.
-- **No Expertise Required**: Perfect for users with limited ML knowledge.
-- **Scalable**: Handles diverse datasets and adapts to various ML tasks.
-- **Open Source**: Free, customizable, and community-driven.
+✅ **Automated Data Cleaning** – Detects and handles missing values, outliers, and inconsistencies.  
+✅ **Smart Preprocessing** – Performs feature scaling, encoding, and transformation optimized for your dataset.  
+✅ **Exploratory Data Analysis (EDA)** – Generates insightful visualizations and statistical summaries.  
+✅ **Intelligent Model Selection & Training** – Automatically picks the best model for classification or regression, with hyperparameter tuning.  
+✅ **Performance Insights & Reporting** – Provides clear, interactive visualizations of model metrics and data trends.  
+✅ **User-Friendly & Scalable** – Just upload a dataset—AutoMLX does the rest!  
 
 ---
 
-## How It Works
+## 🎯 Why Choose AutoMLX?
 
-1. **Upload Your Dataset**: Provide your dataset in CSV or another supported format.
-2. **Let AutoML-ify Work**: The pipeline automatically cleans, preprocesses, and analyzes your data.
-3. **Train Models**: AutoML-ify selects and trains the best model for your task.
-4. **Explore Results**: Visualize performance metrics, insights, and predictions.
+✔ **Saves Time** – Automates repetitive ML tasks so you can focus on insights.  
+✔ **No Deep ML Expertise Needed** – Designed for users at all experience levels.  
+✔ **Scalable & Versatile** – Works with diverse datasets and ML problems.  
+✔ **Open Source & Customizable** – Free to use, modify, and extend.  
+
+---
+
+## 📌 How It Works
+
+1️⃣ **Upload Your Dataset** – Supports CSV and other common formats.  
+2️⃣ **AutoMLX Does the Heavy Lifting** – Cleans, preprocesses, and analyzes the data automatically.  
+3️⃣ **Model Selection & Training** – Finds and trains the best-performing model.  
+4️⃣ **Get Insights & Predictions** – Explore detailed performance metrics and visualizations.  
+
+---
+
+## 🛠 Installation
+
+To get started with AutoMLX, clone the repository and install the dependencies:
+
+```bash
+git clone https://github.com/YOUR_USERNAME/AutoMLX.git
+cd AutoMLX
+pip install -r requirements.txt
