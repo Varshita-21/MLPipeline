@@ -25,58 +25,44 @@ from sklearn.gaussian_process import GaussianProcessRegressor
 from sklearn.svm import SVR
 
 # App title and sidebar
-st.set_page_config(page_title="AutoML-ify", page_icon="🤖", layout="wide")
-
-# Your name for attribution
-YOUR_NAME = "Your Name"
+st.set_page_config(page_title="AutoMLX", page_icon="🤖", layout="wide")
 
 # Sidebar
-authentication_status = 1
-if authentication_status:
-    with st.sidebar:
-        st.image("https://www.onepointltd.com/wp-content/uploads/2020/03/inno2.png")
-        st.title("AutoML-ify")
-        st.info(f"Created by {YOUR_NAME}")
-        choice = st.radio("Navigation", ["Home", "Upload", "EDA", "Data Cleaning", "Modelling", "Download"])
-        st.info("This website helps you build and explore your data.")
+with st.sidebar:
+    st.image("https://www.onepointltd.com/wp-content/uploads/2020/03/inno2.png")
+    st.title("AutoMLX")
+    st.info("An automated ML pipeline for data-driven insights")
+    choice = st.radio("Navigation", ["Home", "Upload", "EDA", "Data Cleaning", "Modelling", "Download"])
+    st.info("Streamline your ML workflow with AutoMLX")
 
 # Home Page
 if choice == "Home":
-    st.title("Welcome to AutoML-ify: Your Simplified ML Pipeline, Automated!")
-    st.write(f"""
-        My goal is to make the process of analyzing and selecting the best machine learning model for your dataset as easy and efficient as possible. With AutoML-ify, you can upload your dataset, and the system will take care of the rest – from data cleaning to model training and visualization.
+    st.title("Welcome to AutoMLX: Automate Your ML Workflow")
+    st.write("""
+        **AutoMLX** simplifies the machine learning pipeline, handling everything from data preprocessing to model selection.
+        Just upload your dataset, and AutoMLX will clean, analyze, and train models for you!
         
-        ### **What AutoML-ify Does**
-        - **Automated Data Cleaning**: Handles missing values, outliers, and inconsistencies.
-        - **Smart Preprocessing**: Scales, encodes, and transforms your data for optimal results.
-        - **Exploratory Data Analysis (EDA)**: Generates insightful visualizations to help you understand your data.
-        - **Model Selection & Training**: Automatically selects and trains the best model for your task.
-        - **Visualization & Reporting**: Provides clear, interactive visualizations of model performance and data insights.
-        
-        ### **Why Choose AutoML-ify?**
-        - **Save Time**: Automate repetitive tasks and focus on interpreting results.
-        - **No Expertise Required**: Perfect for users with limited ML knowledge.
-        - **Scalable**: Handles diverse datasets and adapts to various ML tasks.
+        ### **Core Features**
+        - **Automatic Data Cleaning**: Handles missing values, outliers, and feature transformations.
+        - **Smart Preprocessing**: Scales, encodes, and optimizes features for better model performance.
+        - **EDA & Visualization**: Provides insightful visualizations and statistical summaries.
+        - **Model Training & Selection**: Identifies the best ML model for your dataset.
+        - **Performance Metrics & Reporting**: Generates comprehensive reports and visualizations.
         
         ### **How It Works**
-        1. **Upload Your Dataset**: Provide your dataset in CSV or another supported format.
-        2. **Let AutoML-ify Work**: The pipeline automatically cleans, preprocesses, and analyzes your data.
-        3. **Train Models**: AutoML-ify selects and trains the best model for your task.
-        4. **Explore Results**: Visualize performance metrics, insights, and predictions.
-        
-        ### **Future Plans**
-        In the future, I plan to incorporate **Explainable AI (XAI)** to provide increased transparency and understanding of the model's decision-making process.
-        
-        Thank you for choosing **AutoML-ify** for your data analysis needs. I hope you find it helpful and user-friendly!
+        1. **Upload Your Dataset**
+        2. **Let AutoMLX Process the Data**
+        3. **Run Model Selection & Training**
+        4. **Review Insights & Download Your Model**
     """)
 
 # Upload Dataset
 if choice == "Upload":
     st.title("Upload Your Dataset")
-    file = st.file_uploader("Upload Your Dataset (CSV format)", type=["csv"])
+    file = st.file_uploader("Upload a CSV file", type=["csv"])
     if file:
-        df = pd.read_csv(file, index_col=None)
-        df.to_csv('dataset.csv', index=None)
+        df = pd.read_csv(file)
+        df.to_csv('dataset.csv', index=False)
         st.success("Dataset uploaded successfully!")
         st.dataframe(df)
 
@@ -84,110 +70,78 @@ if choice == "Upload":
 if choice == "EDA":
     st.title("Exploratory Data Analysis")
     try:
-        df = pd.read_csv('dataset.csv', index_col=None)
+        df = pd.read_csv('dataset.csv')
         profile_df = df.profile_report()
         st_profile_report(profile_df)
-    except Exception as e:
-        st.error("Please upload a dataset first or ensure the dataset is valid.")
+    except:
+        st.error("Please upload a dataset first.")
 
 # Data Cleaning
 if choice == "Data Cleaning":
     st.title("Data Cleaning")
     try:
-        df = pd.read_csv('dataset.csv', index_col=None)
-        threshold_cols = int(df.shape[0] * 0.5)
-        df.dropna(axis=1, thresh=threshold_cols, inplace=True)
-
-        for col in df.columns:
-            if df[col].dtype not in ['int64', 'float64']:
-                df = pd.concat([df, pd.get_dummies(df[col], prefix=col)], axis=1)
-                df.drop(col, axis=1, inplace=True)
+        df = pd.read_csv('dataset.csv')
+        df.dropna(thresh=int(df.shape[0] * 0.5), axis=1, inplace=True)
         df.interpolate(method='linear', inplace=True)
         st.success("Data cleaned successfully!")
         st.dataframe(df)
-        df.to_csv('dataset.csv', index=None)
-    except Exception as e:
-        st.error("Please upload a dataset first or ensure the dataset is valid.")
+        df.to_csv('dataset.csv', index=False)
+    except:
+        st.error("Please upload a valid dataset first.")
 
 # Modelling
 if choice == "Modelling":
     st.title("Model Training")
     try:
-        df = pd.read_csv('dataset.csv', index_col=None)
-        classoreg = st.radio("Choose the type of problem", ["Regression", "Classification"])
-        chosen_target = st.selectbox('Choose the Target Column', df.columns)
-        X = df.drop(chosen_target, axis=1)
-        y = df[chosen_target]
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=1)
+        df = pd.read_csv('dataset.csv')
+        problem_type = st.radio("Select Problem Type", ["Regression", "Classification"])
+        target_col = st.selectbox("Select Target Column", df.columns)
+        X = df.drop(columns=[target_col])
+        y = df[target_col]
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
 
-        if classoreg == "Regression":
-            if st.button('Run Modelling'):
-                models = [
-                    ('Multiple Linear Regression', LinearRegression()),
-                    ('Polynomial Regression', PolynomialFeatures()),
-                    ('Robust Regression - RANSAC', RANSACRegressor()),
-                    ('Decision Tree', DecisionTreeRegressor()),
-                    ('Random Forest', RandomForestRegressor()),
-                    ('Gaussian Process Regression', GaussianProcessRegressor()),
-                    ('Support Vector Regression', SVR())
-                ]
-                param_grid = {
-                    'Multiple Linear Regression': {},
-                    'Polynomial Regression': {'degree': [2, 3, 4]},
-                    'Robust Regression - RANSAC': {'max_trials': [100, 200, 500], 'min_samples': [10, 20, 30]},
-                    'Decision Tree': {'max_depth': [5, 10, 20, None], 'min_samples_split': [2, 5, 10]},
-                    'Random Forest': {'n_estimators': [10, 50, 100, 200], 'max_depth': [5, 10, 20, None]},
-                    'Gaussian Process Regression': {'kernel': [None, 'RBF']},
-                    'Support Vector Regression': {'C': [0.1, 1, 10], 'kernel': ['linear', 'rbf']}
-                }
-                best_model_obj, best_score = train_models(models, param_grid, X, y)
-                st.success(f"The best model is {best_model_obj} with a score of {best_score}")
-                test_score = best_model_obj.score(X_test, y_test)
-                st.success(f"The test score for the best model is {test_score}")
-                pickle.dump(best_model_obj, open('best_model.pkl', 'wb'))
+        if problem_type == "Regression":
+            models = [
+                ('Linear Regression', LinearRegression()),
+                ('Polynomial Regression', PolynomialFeatures()),
+                ('RANSAC Regressor', RANSACRegressor()),
+                ('Decision Tree', DecisionTreeRegressor()),
+                ('Random Forest', RandomForestRegressor()),
+                ('Gaussian Process', GaussianProcessRegressor()),
+                ('SVR', SVR())
+            ]
         else:
-            if st.button('Run Modelling'):
-                models = [
-                    ('Logistic Regression', LogisticRegression()),
-                    ('Random Forest', RandomForestClassifier()),
-                    ('K-Nearest Neighbors', KNeighborsClassifier()),
-                    ('Support Vector Machine', SVC()),
-                    ('Gaussian Naive Bayes', GaussianNB()),
-                    ('XGBoost', XGBClassifier())
-                ]
-                param_grid = {
-                    'Logistic Regression': {'C': np.logspace(-3, 3, 7), 'penalty': ['l1', 'l2'], 'solver': ['newton-cg', 'lbfgs', 'liblinear', 'sag']},
-                    'Random Forest': {'n_estimators': [10, 50, 100, 200, 500], 'max_depth': [5, 10, 20, 30, None], 'min_samples_split': [2, 5, 10], 'min_samples_leaf': [1, 2, 4]},
-                    'K-Nearest Neighbors': {'n_neighbors': [1, 3, 5, 7, 9, 11], 'weights': ['uniform', 'distance'], 'algorithm': ['auto', 'ball_tree', 'kd_tree', 'brute']},
-                    'Support Vector Machine': {'C': np.logspace(-3, 3, 7), 'kernel': ['linear', 'rbf'], 'degree': [2, 3, 4], 'gamma': ['scale', 'auto']},
-                    'Gaussian Naive Bayes': {'var_smoothing': [1e-9, 1e-8, 1e-7, 1e-6]},
-                    'XGBoost': {'learning_rate': [0.1, 0.01, 0.001], 'max_depth': [3, 5, 7, 10], 'n_estimators': [100, 200, 500], 'booster': ['gbtree', 'dart'], 'subsample': [0.8, 0.9, 1], 'colsample_bytree': [0.8, 0.9, 1]}
-                }
-                best_model_obj, best_score = train_models(models, param_grid, X, y)
-                st.success(f"The best model is {best_model_obj} with a score of {best_score}")
-                test_score = best_model_obj.score(X_test, y_test)
-                st.success(f"The test score for the best model is {test_score}")
-                pickle.dump(best_model_obj, open('best_model.pkl', 'wb'))
-    except Exception as e:
-        st.error("Please upload a dataset first or ensure the dataset is valid.")
+            models = [
+                ('Logistic Regression', LogisticRegression()),
+                ('Random Forest', RandomForestClassifier()),
+                ('K-Nearest Neighbors', KNeighborsClassifier()),
+                ('SVM', SVC()),
+                ('Naive Bayes', GaussianNB()),
+                ('XGBoost', XGBClassifier())
+            ]
+
+        if st.button("Train Models"):
+            best_model, best_score = train_best_model(models, X_train, y_train)
+            st.success(f"Best Model: {best_model} with Score: {best_score}")
+            pickle.dump(best_model, open('best_model.pkl', 'wb'))
+    except:
+        st.error("Please upload and clean a dataset first.")
 
 # Download Model
 if choice == "Download":
-    st.title("Download Your Model")
+    st.title("Download Trained Model")
     try:
         with open('best_model.pkl', 'rb') as f:
-            st.download_button('Download Model', f, file_name="best_model.pkl")
+            st.download_button("Download Model", f, file_name="best_model.pkl")
     except:
-        st.error("Please complete the Modelling section first.")
+        st.error("Train a model first.")
 
-# Helper function for model training
-def train_models(models, param_grid, X, y):
-    best_model_obj = None
-    best_score = -np.inf
-    for model_name, model in models:
-        grid = RandomizedSearchCV(estimator=model, param_distributions=param_grid[model_name], cv=5, n_jobs=3)
-        grid.fit(X, y)
-        if grid.best_score_ > best_score:
-            best_score = grid.best_score_
-            best_model_obj = grid.best_estimator_
-    return best_model_obj, best_score
+# Helper function to train models
+def train_best_model(models, X, y):
+    best_model, best_score = None, -np.inf
+    for name, model in models:
+        model.fit(X, y)
+        score = model.score(X, y)
+        if score > best_score:
+            best_score, best_model = score, model
+    return best_model, best_score
